@@ -22,11 +22,13 @@ if [[ -z $DEPLOY_DOMAIN ]]; then
 	exit 1
 fi
 
-download_url_naive=""
-download_url_hysteria=""
+TAG=${TAG:-latest}
 
-# https://gitee.com/xxoommd/magic/releases/download/v0.1/naive-darwin-amd64
-# https://github.com/xxoommd/ultimate_collection/releases/download/latest/naive-darwin-amd64
+github_download_url_prefix="https://gitee.com/xxoommd/magic/releases/download"
+gitee_download_url_prefix="https://github.com/xxoommd/ultimate_collection/releases/download"
+
+naive_bin_name=""
+hysteria_bin_name=""
 
 os_arch=$(uname -m)
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -35,23 +37,23 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 		exit 1
 	fi
 
-	download_url_naive="https://github.com/xxoommd/ultimate_collection/releases/download/latest/naive-linux-amd64"
-	download_url_hysteria="https://github.com/xxoommd/ultimate_collection/releases/download/latest/hysteria-linux-amd64-avx"
+	naive_bin_name="naive-linux-amd64"
+	hysteria_bin_name="hysteria-linux-amd64"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 	if [[ $os_arch == "x86_64" ]]; then
-		download_url_naive="https://github.com/xxoommd/ultimate_collection/releases/download/latest/naive-darwin-amd64"
-		download_url_hysteria="https://github.com/xxoommd/ultimate_collection/releases/download/latest/hysteria-darwin-amd64-avx"
+		naive_bin_name="naive-darwin-amd64"
+		hysteria_bin_name="hysteria-darwin-amd64"
 	elif [[ $os_arch == "arm64" ]]; then
-		download_url_naive="https://github.com/xxoommd/ultimate_collection/releases/download/latest/naive-darwin-arm64"
-		download_url_hysteria="https://github.com/xxoommd/ultimate_collection/releases/download/latest/hysteria-darwin-arm64"
+		naive_bin_name="naive-darwin-arm64"
+		hysteria_bin_name="hysteria-darwin-arm64"
 	else
 		logerr "Unsuppored arch: ${YELLOW}${os_arch}"${NC}
 		exit 1
 	fi
 elif [[ "$OSTYPE" == "msys"* || "$OSTYPE" == "cygwin"* ]]; then
 	if [[ $os_arch == "x86_64" ]]; then
-		download_url_naive="https://github.com/xxoommd/ultimate_collection/releases/download/latest/naive-windows-amd64.exe"
-		download_url_hysteria="https://github.com/xxoommd/ultimate_collection/releases/download/latest/hysteria-windows-amd64-avx.exe"
+		naive_bin_name="naive-windows-amd64.exe"
+		hysteria_bin_name="hysteria-windows-amd64-avx.exe"
 	else
 		logerr "Unsuppored arch: ${YELLOW}${os_arch}"${NC}
 		exit 1
@@ -61,12 +63,15 @@ else
 	exit 1
 fi
 
-if [ -z "$download_url_naive" ] || [ -z "$download_url_hysteria" ]; then
-	logerr "Download URL is null. Naive:$download_url_naive Hysteria:$download_url_hysteria"
+if [ -z "$naive_bin_name" ] || [ -z "$hysteria_bin_name" ]; then
+	logerr "Download URL is null. Naive:$naive_bin_name Hysteria:$hysteria_bin_name"
 	exit 1
 fi
 
 function download_bin() {
+	download_url_naive="${gitee_download_url_prefix}/${TAG}/${naive_bin_name}"
+	download_url_hysteria="${gitee_download_url_prefix}/${TAG}/${hysteria_bin_name}"
+
 	curl -o ./naive -L $download_url_naive && curl -o ./hysteria -L $download_url_hysteria && chmod +x ./naive ./hysteria
 }
 
@@ -82,9 +87,9 @@ bandwidth:
   up: 100 mbps
   down: 1000 mbps
 socks5:
-  listen: 127.0.0.1:1080 
+  listen: 127.0.0.1:11081
 http:
-  listen: 127.0.0.1:8080 
+  listen: 127.0.0.1:11082
 EOF
 }
 
@@ -93,7 +98,7 @@ function gen_naive_config() {
 	echo -e "[INFO] Generate ${GREEN}${NAIVE_CONFIG}${NC} ..."
 	cat >${NAIVE_CONFIG} <<EOF
 {
-  "listen": "http://127.0.0.1:8081",
+  "listen": "http://127.0.0.1:11083",
   "proxy": "quic://xxoommd:fuckyouall@$DEPLOY_DOMAIN"
 }
 EOF
