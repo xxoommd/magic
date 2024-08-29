@@ -8,21 +8,21 @@ export DEPLOY_DOMAIN=xxx.xxx
 
 2. Start
 
-- server
+#### server
 
 ```shell
 curl -o- https://raw.githubusercontent.com/xxoommd/magic/main/x/quick_server.sh | bash
 ```
 
-- client
+#### client
 
-  - Github:
+- Github:
 
 ```shell
 curl -o- https://raw.githubusercontent.com/xxoommd/magic/main/quick_client.sh | bash
 ```
 
-  - Gitea:
+- Gitea:
 
 ```shell
 curl -o- https://gitee.com/xxoommd/magic/raw/main/quick_client.sh | bash
