@@ -25,6 +25,9 @@ fi
 download_url_naive=""
 download_url_hysteria=""
 
+# https://gitee.com/xxoommd/magic/releases/download/v0.1/naive-darwin-amd64
+# https://github.com/xxoommd/ultimate_collection/releases/download/latest/naive-darwin-amd64
+
 os_arch=$(uname -m)
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 	if [[ $os_arch != "x86_64" ]]; then
