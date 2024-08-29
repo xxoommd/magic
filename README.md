@@ -16,13 +16,13 @@ curl -o- https://raw.githubusercontent.com/xxoommd/magic/main/x/quick_server.sh 
 
 - client
 
- - Github:
+  - Github:
 
 ```shell
 curl -o- https://raw.githubusercontent.com/xxoommd/magic/main/quick_client.sh | bash
 ```
 
- - Gitea:
+  - Gitea:
 
 ```shell
 curl -o- https://gitee.com/xxoommd/magic/raw/main/quick_client.sh | bash
