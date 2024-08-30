@@ -24,9 +24,6 @@ fi
 
 TAG=${TAG:-latest}
 
-echo "--- Using TAG: ${TAG} ---"
-exit 0
-
 github_download_url_prefix="https://gitee.com/xxoommd/magic/releases/download"
 gitee_download_url_prefix="https://github.com/xxoommd/ultimate_collection/releases/download"
 
