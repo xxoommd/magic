@@ -80,7 +80,7 @@ function download_naive() {
     mv_cmd="mv /tmp/naiveproxy-${NAIVE_VERSION}-${OS_N}-${ARCH_N}/naive.exe $BIN_PATH/naive-${OS}-${ARCH}.exe"
   fi
 
-  echo -e "- Downloading: ${target_name} ... ${YELLOW}$download_cmd${NC}"
+  echo -e "- Downloading: ${target_name} ..."
 
   eval $download_cmd && eval $decompress_cmd && eval $mv_cmd
   rm -rf /tmp/naive*
@@ -117,6 +117,7 @@ function main() {
   if [[ $# -eq 0 ]]; then
     up_caddy=true
     up_hy=true
+    up_naive=true
   fi
 
   while [[ $# -gt 0 ]]; do
@@ -162,20 +163,20 @@ function main() {
   fi
 
   if [ "$up_hy" = true ]; then
-    echo -e "[INFO] Updating ${GREEN}hysteria2${NC} ..."
+    echo -e "[INFO] Downloading ${GREEN}hysteria2${NC} ..."
     if update_hysteria; then
-      echo -e "[INFO] Updating ${GREEN}hysteria2${NC} success"
+      echo -e "[INFO] Download ${GREEN}hysteria2${NC} success"
     else
-      echo -e "[Err] Updating ${GREEN}hysteria2${NC} fail"
+      echo -e "[Err] Download ${GREEN}hysteria2${NC} fail"
       exit 1
     fi
     echo
   fi
 
   if [ "$up_naive" = true ]; then
-    echo -e "[INFO] Updating ${GREEN}naive${NC} ..."
+    echo -e "[INFO] Downloading ${GREEN}naive${NC} ..."
     if ! update_naive; then
-      echo -e "[${RED}ERR${NC}] Update naive fail"
+      echo -e "[${RED}ERR${NC}] Download naive fail"
     fi
     echo
   fi

@@ -10,8 +10,16 @@ export DEPLOY_DOMAIN=xxx.xxx
 
 #### server
 
+- Github:
+
 ```shell
-curl -o- https://raw.githubusercontent.com/xxoommd/magic/main/x/quick_server.sh | bash
+bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/x/quick_server.sh)
+```
+
+- Gitea:
+
+```shell
+bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/quick_server.sh)
 ```
 
 #### client
@@ -19,11 +27,11 @@ curl -o- https://raw.githubusercontent.com/xxoommd/magic/main/x/quick_server.sh 
 - Github:
 
 ```shell
-curl -o- https://raw.githubusercontent.com/xxoommd/magic/main/quick_client.sh | bash
+TAG=latest bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/quick_client.sh)
 ```
 
 - Gitea:
 
 ```shell
-curl -o- https://gitee.com/xxoommd/magic/raw/main/quick_client.sh | bash
+TAG=latest bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/quick_client.sh)
 ```
