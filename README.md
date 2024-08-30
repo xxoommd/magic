@@ -16,7 +16,7 @@ export DEPLOY_DOMAIN=xxx.xxx
 bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/quick_server.sh)
 ```
 
-- Gitea:
+- Gitee:
 
 ```shell
 DOWNLOAD_SRC=gitee bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/quick_server.sh)
@@ -30,7 +30,7 @@ DOWNLOAD_SRC=gitee bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/qu
 TAG=latest bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/quick_client.sh)
 ```
 
-- Gitea:
+- Gitee:
 
 ```shell
 TAG=latest bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/quick_client.sh)
