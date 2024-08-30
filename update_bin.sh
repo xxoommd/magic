@@ -97,11 +97,14 @@ function update_naive() {
     chmod +x $BIN_PATH/naive* && ls -lhF $BIN_PATH/naive*
 }
 
-function update_hysteria() {
-  curl -s -L -o $BIN_PATH/hysteria-linxu-amd64-avx https://download.hysteria.network/app/latest/hysteria-linux-amd64-avx &&
-    curl -s -L -o $BIN_PATH/hysteria-darwin-amd64-avx https://download.hysteria.network/app/latest/hysteria-darwin-amd64-avx &&
+function download_hysteria() {
+  echo "- Downloading hysteria-linxu-amd64-avx ..." &&
+    curl -s -L -o $BIN_PATH/hysteria-linxu-amd64-avx https://download.hysteria.network/app/latest/hysteria-linux-amd64-avx &&
+    echo "- Downloading hysteria-darwin-amd64 ..." &&
     curl -s -L -o $BIN_PATH/hysteria-darwin-amd64 https://download.hysteria.network/app/latest/hysteria-darwin-amd64 &&
+    echo "- Downloading hysteria-darwin-arm64 ..." &&
     curl -s -L -o $BIN_PATH/hysteria-darwin-arm64 https://download.hysteria.network/app/latest/hysteria-darwin-arm64 &&
+    echo "- Downloading hysteria-windows-amd64-avx.exe ..." &&
     curl -s -L -o $BIN_PATH/hysteria-windows-amd64-avx.exe https://download.hysteria.network/app/latest/hysteria-windows-amd64-avx.exe &&
     echo &&
     chmod +x $BIN_PATH/* && ls -lhF $BIN_PATH/hy*
@@ -164,7 +167,7 @@ function main() {
 
   if [ "$up_hy" = true ]; then
     echo -e "[INFO] Downloading ${GREEN}hysteria2${NC} ..."
-    if update_hysteria; then
+    if download_hysteria; then
       echo -e "[INFO] Download ${GREEN}hysteria2${NC} success"
     else
       echo -e "[Err] Download ${GREEN}hysteria2${NC} fail"

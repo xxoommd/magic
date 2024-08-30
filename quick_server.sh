@@ -7,16 +7,15 @@ YELLOW='\033[0;33m'
 UNDERLINE='\033[4m' # 下划线
 NC='\033[0m'        # No Color
 
-if [[ -z $DEPLOY_DOMAIN ]]; then
-  echo
-  echo "[${RED}Err${NC}] DEPLOY_DOMAIN is not set"
-  echo
+# 仅root用户执行
+if [ "$(id -u)" -eq 0 ]; then
+  echo "当前用户是 root"
+else
+  echo -e "${RED}[Err]${NC}当前用户不是 root"
   exit 1
 fi
 
-caddy_download_url="https://gitee.com/xxoommd/magic/releases/download/v0.1/caddy-linux-amd64"
-hysteria_download_url="https://gitee.com/xxoommd/magic/releases/download/v0.1/hysteria-linxu-amd64-avx"
-
+# 验证域名格式是否合法
 function is_valid_domain() {
   local str="$1"
 
@@ -28,14 +27,37 @@ function is_valid_domain() {
   fi
 }
 
-# 验证域名格式是否合法
 echo -e "\n[INFO] Validate DOMAN: ${BLUE}${DEPLOY_DOMAIN}${NC} ..."
+
+if [[ -z $DEPLOY_DOMAIN ]]; then
+  echo
+  echo "[${RED}Err${NC}] DEPLOY_DOMAIN is not set"
+  echo
+  exit 1
+fi
 
 if is_valid_domain "$DEPLOY_DOMAIN"; then
   echo -e "[INFO] ${BLUE}${UNDERLINE}$DEPLOY_DOMAIN${NC} is a valid domain.\n"
 else
   echo -e "[${RED}ERR${NC}] ${BLUE}${UNDERLINE}$DEPLOY_DOMAIN${NC} is not a valid domain. Abort."
   exit 1
+fi
+
+TAG=${TAG:-"latest"}
+
+echo -e "[INFO] Using TAG: ${YELLOW}${TAG}${NC}"
+
+caddy_download_url=""
+hysteria_download_url=""
+
+if [ "$DOWNLOAD_SRC" = "gitee" ]; then
+  echo -e "[INFO] Download from ${YELLOW}Gitee${NC} ..."
+  caddy_download_url="https://gitee.com/xxoommd/magic/releases/download/${TAG}/caddy-linux-amd64"
+  hysteria_download_url="https://gitee.com/xxoommd/magic/releases/download/${TAG}/hysteria-linxu-amd64-avx"
+else
+  echo -e "[INFO] Download from ${YELLOW}Github${NC} ..."
+  caddy_download_url="https://github.com/xxoommd/magic/releases/download/${TAG}/caddy-linux-amd64"
+  hysteria_download_url="https://github.com/xxoommd/magic/releases/download/${TAG}/hysteria-linxu-amd64-avx"
 fi
 
 # 设置工作目录

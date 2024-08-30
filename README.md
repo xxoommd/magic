@@ -19,7 +19,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/quick_ser
 - Gitea:
 
 ```shell
-bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/quick_server.sh)
+DOWNLOAD_SRC=gitee bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/quick_server.sh)
 ```
 
 #### client
