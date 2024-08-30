@@ -14,6 +14,9 @@ if [[ -z $DEPLOY_DOMAIN ]]; then
   exit 1
 fi
 
+caddy_download_url="https://gitee.com/xxoommd/magic/releases/download/v0.1/caddy-linux-amd64"
+hysteria_download_url="https://gitee.com/xxoommd/magic/releases/download/v0.1/hysteria-linxu-amd64-avx"
+
 function is_valid_domain() {
   local str="$1"
 
@@ -49,8 +52,8 @@ HY_CONFIG_FILE="${WORKING_DIR}/hy-config.yaml"
 CADDY_CONFIG_FILE="${WORKING_DIR}/Caddyfile"
 
 echo -e "[INFO] Download ${GREEN}hysteria${NC} and ${GREEN}caddy${NC} ..."
-curl -L -o /usr/local/bin/hysteria https://github.com/xxoommd/ultimate_collection/releases/download/latest/hysteria &&
-  curl -L -o /usr/local/bin/caddy https://github.com/xxoommd/ultimate_collection/releases/download/latest/caddy &&
+curl -L -o /usr/local/bin/hysteria $hysteria_download_url &&
+  curl -L -o /usr/local/bin/caddy $caddy_download_url &&
   chmod +x /usr/local/bin/hysteria /usr/local/bin/caddy
 echo -e "[INFO] Download Done\n"
 
