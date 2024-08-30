@@ -13,7 +13,7 @@ export DEPLOY_DOMAIN=xxx.xxx
 - Github:
 
 ```shell
-bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/x/quick_server.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/quick_server.sh)
 ```
 
 - Gitea:
