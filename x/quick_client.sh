@@ -87,9 +87,9 @@ bandwidth:
   up: 100 mbps
   down: 1000 mbps
 socks5:
-  listen: 127.0.0.1:11081
+  listen: 127.0.0.1:21089
 http:
-  listen: 127.0.0.1:11082
+  listen: 127.0.0.1:28080
 EOF
 }
 
@@ -98,7 +98,7 @@ function gen_naive_config() {
 	echo -e "[INFO] Generate ${GREEN}${NAIVE_CONFIG}${NC} ..."
 	cat >${NAIVE_CONFIG} <<EOF
 {
-  "listen": "http://127.0.0.1:11083",
+  "listen": "http://127.0.0.1:28081",
   "proxy": "quic://xxoommd:fuckyouall@$DEPLOY_DOMAIN"
 }
 EOF

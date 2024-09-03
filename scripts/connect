@@ -1,0 +1,177 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+YELLOW='\033[0;33m'
+UNDERLINE='\033[4m' # 下划线
+NC='\033[0m'        # No Color
+
+function print_err() {
+  echo -e "\n[${RED}Err${NC}] $@"
+}
+
+function print_info() {
+  echo -e "\n[${GREEN}INFO${NC}] $@"
+}
+
+declare -A servers
+servers["vm0"]="ssh gaofei@192.168.137.105"
+servers["tw1"]="ssh root@tw1.xxoommd.asia"
+servers["tw2"]="ssh root@tw2.xxoommd.asia"
+servers["tw3"]="ssh root@tw3.xxoommd.asia"
+servers["hk1"]="ssh root@hk1.xxoommd.asia"
+servers["hk2"]="ssh root@hk2.xxoommd.asia"
+servers["us1"]="ssh root@us1.xxoommd.asia"
+servers["jp"]="ssh root@jp.xxoommd.asia"
+servers["yact"]="ssh root@172.50.10.83"
+
+function help() {
+  echo "Usage:"
+  echo -e "  1.SSH to server: con (${GREEN}-C${NC}|${GREEN}--connect-host${NC} can be omitted) [NAME]"
+  echo -e "    Options:"
+  echo -e "     -u|--user [USER]  Overwrite default user"
+  echo -e "     -p|--port [PORT]  Overwrite default port\n"
+  echo -e "  2.Remove know_hosts: con ${GREEN}-R${NC}|${GREEN}--remove-known-host${NC} [NAME]"
+  echo ""
+  echo "Available servers:"
+  for name in "${!servers[@]}"; do
+    sshcmd="${servers[$name]}"
+    srv=($(parse_ssh_string $sshcmd))
+    port=${srv[0]}
+    user=${srv[1]}
+    host=${srv[2]}
+
+    printf "${GREEN}%-6s${NC}" "* $name"
+    printf " -> "
+    printf "${NC}%-24s${NC}" "$user@$host"
+    printf "${YELLOW}%-16s${NC}\n" " ssh_port:$port"
+  done
+}
+
+# parse_ssh_string: Parse ssh command to port, user, port
+#
+#  - e.g: result=($(parse_ssh_string "ssh -p 2432 gaofei@192.168.137.105"))
+#
+#  - params: string (e.g: ssh -p 2222 root@192.168.137.101)
+#  - return: array (port[default:22] user host)
+function parse_ssh_string() {
+  local str="$@"
+  local port=22 # 默认端口
+  local user=""
+  local host=""
+
+  # 使用正则表达式解析字符串
+  if [[ $str =~ -p[[:space:]]([0-9]+) ]]; then
+    port=${BASH_REMATCH[1]}
+  fi
+
+  if [[ $str =~ ([^[:space:]]+)@([a-zA-Z0-9.-]+) ]]; then
+    user=${BASH_REMATCH[1]}
+    host=${BASH_REMATCH[2]}
+  fi
+
+  # 将结果存储到数组
+  local result=("$port" "$user" "$host")
+  echo "${result[@]}"
+}
+
+function ssh_to_server() {
+  if [[ -z $1 ]]; then
+    print_err "server name not provided."
+    exit 1
+  fi
+
+  user=""
+  port=""
+  hostname=""
+
+  while [[ "$#" -gt 0 ]]; do
+    case $1 in
+    -u | --user)
+      user=$2
+      shift 2
+      ;;
+    -p | --port)
+      port=$2
+      shift 2
+      ;;
+    *)
+      hostname=$1
+      shift
+      ;;
+    esac
+  done
+
+  for name in "${!servers[@]}"; do
+    if [[ $hostname == $name ]]; then
+      sshcmd="${servers[$name]}"
+      srv=($(parse_ssh_string $sshcmd))
+      if [[ -z $port ]]; then
+        port=${srv[0]}
+      fi
+
+      if [[ -z $user ]]; then
+        user=${srv[1]}
+      fi
+
+      host=${srv[2]}
+
+      cmd=""
+      if [[ "$port" -eq "22" ]]; then
+        cmd="ssh $user@$host"
+      else
+        cmd="ssh -p $port $user@$host"
+      fi
+
+      print_info "Executing: $cmd"
+      eval $cmd
+      exit $?
+    fi
+  done
+
+  print_err "server not found: $hostname"
+  exit 1
+}
+
+function remove_known_host() {
+  target_host=$1
+  for name in "${!servers[@]}"; do
+    if [[ $1 == $name ]]; then
+      sshcmd="${servers[$name]}"
+      server=($(parse_ssh_string $sshcmd))
+      target_host=${server[2]}
+      break
+    fi
+  done
+
+  cmd="ssh-keygen -R $target_host"
+  print_info "Executing $cmd"
+  eval $cmd
+  exit $?
+}
+
+function main() {
+  if [[ -z $1 || $1 == "-h" || $1 == "--help" ]]; then
+    help
+    exit 0
+  fi
+
+  while [[ "$#" -gt 0 ]]; do
+    case $1 in
+    -R | --remove-known-host)
+      shift 1
+      remove_known_host $@
+      ;;
+    -C | --connect-host)
+      shift 1
+      ssh_to_server $@
+      ;;
+    *)
+      ssh_to_server $@
+      ;;
+    esac
+  done
+}
+
+main $@
