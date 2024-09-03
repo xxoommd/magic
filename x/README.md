@@ -19,7 +19,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/x/quick_s
 - Gitea:
 
 ```shell
-bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/quick_server.sh)
+bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/x/quick_server.sh)
 ```
 
 #### client
@@ -27,11 +27,11 @@ bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/quick_server.sh)
 - Github:
 
 ```shell
-TAG=latest bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/quick_client.sh)
+TAG=latest bash <(curl -fsSL https://raw.githubusercontent.com/xxoommd/magic/main/x/quick_client.sh)
 ```
 
 - Gitea:
 
 ```shell
-TAG=latest bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/quick_client.sh)
+TAG=latest bash <(curl -fsSL https://gitee.com/xxoommd/magic/raw/main/x/quick_client.sh)
 ```
