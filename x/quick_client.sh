@@ -24,7 +24,7 @@ fi
 
 TAG=${TAG:-latest}
 
-github_download_url_prefix="https://gitee.com/xxoommd/magic/releases/download"
+github_download_url_prefix="https://github.com/xxoommd/magic/releases/download"
 gitee_download_url_prefix="https://github.com/xxoommd/ultimate_collection/releases/download"
 
 naive_bin_name=""
