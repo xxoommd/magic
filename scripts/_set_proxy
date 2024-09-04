@@ -1,2 +1,2 @@
-export HTTP_PROXY=http://localhost:8889
-export HTTPS_PROXY=http://localhost:8889
+export HTTP_PROXY="http://localhost:28080"
+export HTTPS_PROXY="http://localhost:28080"

@@ -4,3 +4,4 @@ alias la='ls -AlhF'
 
 export PS1='%(?:%{%}%1{➜%} :%{%}%1{➜%} ) %{%}%~%{%} $(git_prompt_info)'
 export PATH=$PATH:/Users/gaofei/Projects/github.com/magic/scripts
+export PATH="/usr/local/opt/node@20/bin:$PATH"
