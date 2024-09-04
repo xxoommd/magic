@@ -1,0 +1,5 @@
+alias l='ls -lhF'
+alias ll=l
+alias la='ls -AlhF'
+
+export PS1='%(?:%{%}%1{➜%} :%{%}%1{➜%} ) %{%}%c%{%} $(git_prompt_info)'
