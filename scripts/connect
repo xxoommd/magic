@@ -17,14 +17,15 @@ function print_info() {
 
 declare -A servers
 servers["vm0"]="ssh gaofei@192.168.137.105"
+servers["yact"]="ssh root@172.50.10.83"
 servers["tw1"]="ssh root@tw1.xxoommd.asia"
 servers["tw2"]="ssh root@tw2.xxoommd.asia"
 servers["tw3"]="ssh root@tw3.xxoommd.asia"
 servers["hk1"]="ssh root@hk1.xxoommd.asia"
-servers["hk2"]="ssh root@hk2.xxoommd.asia"
+servers["hk2"]="ssh ubuntu@hk2.xxoommd.asia"
 servers["us1"]="ssh root@us1.xxoommd.asia"
-servers["jp"]="ssh root@jp.xxoommd.asia"
-servers["yact"]="ssh root@172.50.10.83"
+servers["jp"]="ssh ubuntu@jp.xxoommd.asia"
+servers["sg"]="ssh ubuntu@sg.xxoommd.asia"
 
 function help() {
   echo "Usage:"
