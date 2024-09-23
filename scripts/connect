@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -28,6 +28,7 @@ servers["jp"]="ssh ubuntu@jp.xxoommd.asia"
 servers["sg"]="ssh ubuntu@sg.xxoommd.asia"
 
 function help() {
+  echo
   echo "Usage:"
   echo -e "  1.SSH to server: con (${GREEN}-C${NC}|${GREEN}--connect-host${NC} can be omitted) [NAME]"
   echo -e "    Options:"
@@ -48,6 +49,7 @@ function help() {
     printf "${NC}%-24s${NC}" "$user@$host"
     printf "${YELLOW}%-16s${NC}\n" " ssh_port:$port"
   done
+  echo
 }
 
 # parse_ssh_string: Parse ssh command to port, user, port

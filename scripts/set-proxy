@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+function show() {
+  echo
+  echo "HTTP_PROXY=$HTTP_PROXY"
+  echo "HTTPS_PROXY=$HTTPS_PROXY"
+  echo
+}
+
+function main() {
+  if [[ $1 == "on" ]]; then
+    DIR="$(dirname "${BASH_SOURCE[0]}")"
+    source $DIR/_set_proxy
+  elif [[ $1 == "off" ]]; then
+    unset HTTP_PROXY
+    unset HTTPS_PROXY
+  fi
+
+  show
+}
+
+main $@
